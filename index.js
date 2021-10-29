@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
+const ObjectId = require('mongodb').ObjectId;
 const cors = require('cors');
 require('dotenv').config();
 const { json } = require('express');
@@ -35,11 +36,21 @@ async function insertData()
         {
             res.send('This is website root');
         });
+
         // Get API
         app.get('/rooms', async (req, res) =>
         {
             const cursor = dbCollection.find({});
             const result = await cursor.toArray();
+            res.send(result);
+        });
+
+        // Get api for single room
+        app.get('/rooms/:id', async (req, res) =>
+        {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await dbCollection.findOne(query);
             res.send(result);
         });
     } finally {
