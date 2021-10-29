@@ -20,16 +20,33 @@ async function insertData()
     try {
         await client.connect();
         const dbName = client.db('TravelRooms');
-        const dbCollection = dbName.collection('Rooms');
+        const roomCollection = dbName.collection('Rooms');
+        const orderCollection = dbName.collection('Orders');
 
 
-        // POST API
+        // POST API for rooms collection
         app.post('/rooms', async (req, res) =>
         {
             const newRoom = req.body;
-            const result = await dbCollection.insertOne(newRoom);
+            const result = await roomCollection.insertOne(newRoom);
             res.send(result);
         });
+
+        // Post api for order collection
+        app.post('/my-orders/', async (req, res) =>
+        {
+            const newOrder = req.body;
+            const result = await orderCollection.insertOne(newOrder);
+            res.send(result);
+        });
+
+        // Get api for order collection
+        /* app.get('/my-orders', async (req, res) =>
+        {
+            const email = req.body.email;
+            console.log('submit hitted');
+            res.send('dkdj');
+        }); */
 
         // Get root directory
         app.get('/', (req, res) =>
@@ -40,7 +57,7 @@ async function insertData()
         // Get API
         app.get('/rooms', async (req, res) =>
         {
-            const cursor = dbCollection.find({});
+            const cursor = roomCollection.find({});
             const result = await cursor.toArray();
             res.send(result);
         });
@@ -50,7 +67,7 @@ async function insertData()
         {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const result = await dbCollection.findOne(query);
+            const result = await roomCollection.findOne(query);
             res.send(result);
         });
     } finally {
