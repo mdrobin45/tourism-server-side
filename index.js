@@ -31,7 +31,25 @@ async function insertData()
             const result = await roomCollection.insertOne(newRoom);
             res.send(result);
         });
+        // Get API for rooms collection
+        app.get('/rooms', async (req, res) =>
+        {
+            const cursor = roomCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+        // Get api for single room
+        app.get('/rooms/:id', async (req, res) =>
+        {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await roomCollection.findOne(query);
+            res.send(result);
+        });
 
+
+
+        // *******************************************************
         // Post api for order collection
         app.post('/my-orders/', async (req, res) =>
         {
@@ -41,35 +59,25 @@ async function insertData()
         });
 
         // Get api for order collection
-        /* app.get('/my-orders', async (req, res) =>
+        app.get('/my-orders', async (req, res) =>
         {
-            const email = req.body.email;
-            console.log('submit hitted');
-            res.send('dkdj');
-        }); */
+            const cursor = orderCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result);
+        });
 
+
+
+        // ****************************************************************
         // Get root directory
         app.get('/', (req, res) =>
         {
             res.send('This is website root');
         });
 
-        // Get API
-        app.get('/rooms', async (req, res) =>
-        {
-            const cursor = roomCollection.find({});
-            const result = await cursor.toArray();
-            res.send(result);
-        });
 
-        // Get api for single room
-        app.get('/rooms/:id', async (req, res) =>
-        {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const result = await roomCollection.findOne(query);
-            res.send(result);
-        });
+
+
     } finally {
 
     }
