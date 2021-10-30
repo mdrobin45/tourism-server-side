@@ -65,6 +65,27 @@ async function insertData()
             const result = await cursor.toArray();
             res.send(result);
         });
+        // Delete order
+        app.delete('/my-orders/:id', async (req, res) =>
+        {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await orderCollection.deleteOne(query);
+            res.send(result);
+        });
+        // Update order status
+        app.put('/my-orders/:id', async (req, res) =>
+        {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const replacement = {
+                $set: {
+                    status: 'Approved'
+                }
+            };
+            const result = await orderCollection.updateOne(query, replacement);
+            res.send('result');
+        });
 
 
 
