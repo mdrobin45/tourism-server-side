@@ -46,6 +46,12 @@ async function insertData()
             const result = await roomCollection.findOne(query);
             res.send(result);
         });
+        // Update Room
+        app.put('/rooms/:id', async (req, res) =>
+        {
+            console.log('Update hitting');
+            res.send('dfdf');
+        });
 
 
 
