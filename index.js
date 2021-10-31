@@ -52,6 +52,14 @@ async function insertData()
             console.log('Update hitting');
             res.send('dfdf');
         });
+        // Delete Room
+        app.delete('/rooms/:id', async (req, res) =>
+        {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await roomCollection.deleteOne(filter);
+            res.send(result);
+        });
 
 
 
