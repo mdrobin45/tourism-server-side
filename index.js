@@ -49,8 +49,20 @@ async function insertData()
         // Update Room
         app.put('/rooms/:id', async (req, res) =>
         {
-            console.log('Update hitting');
-            res.send('dfdf');
+            const newInfo = req.body;
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const setNewInfo = {
+                $set: {
+                    roomName: newInfo.roomName,
+                    price: newInfo.price,
+                    img: newInfo.img,
+                    description: newInfo.description,
+                    rating: newInfo.rating
+                }
+            };
+            const result = await roomCollection.updateOne(query, setNewInfo);
+            res.send(result);
         });
         // Delete Room
         app.delete('/rooms/:id', async (req, res) =>
