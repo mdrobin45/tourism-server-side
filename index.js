@@ -119,7 +119,7 @@ async function insertData()
         // Get root directory
         app.get('/', (req, res) =>
         {
-            res.send('This is website root');
+            res.send('Tourism server running');
         });
 
 
